@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UseFirebasecontext } from "../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { checkUser, loginUserwithGoogle } = UseFirebasecontext();
+  const { checkUser, loginUserwithGoogle, isLoggedIn } = UseFirebasecontext();
+
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    if(isLoggedIn){
+    // navigate to home page
+      navigate('/')
+  }
+  },[navigate, isLoggedIn])
 
   const handleClick = async (e) => {
     try {
