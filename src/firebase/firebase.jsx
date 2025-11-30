@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { createContext, useContext, useEffect, useState } from "react";
-import { getDatabase, set, ref } from "firebase/database";
+import { getFirestore, collection, addDoc } from "firebase/firestore"; 
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -21,7 +21,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-const firebaseDatabase = getDatabase(app);
+const firebasefirestore = getFirestore(app);
 const firebaseAuth = getAuth(app);
 
 const firebaseGoogleAuthprovider = new GoogleAuthProvider();
@@ -29,6 +29,7 @@ const firebaseGoogleAuthprovider = new GoogleAuthProvider();
 const FirebaseContext = createContext(null);
 export const UseFirebasecontext = () => useContext(FirebaseContext);
 
+// Firebase provider function
 export default function Firebaseprovider(props) {
   
   const [user, setUser] = useState(null);
@@ -53,8 +54,11 @@ export default function Firebaseprovider(props) {
     return signInWithEmailAndPassword(firebaseAuth, userEmail, userPassword);
   };
 
-  const setnewUser = (key, data) => {
-    return set(ref(firebaseDatabase, key), data);
+  const addListing = (data) => {
+    console.log(data)
+    return addDoc(collection(firebasefirestore, "books"), {
+      
+    });
   };
 
   const isLoggedIn = user? true: false;
@@ -65,7 +69,7 @@ export default function Firebaseprovider(props) {
         signupUser,
         checkUser,
         loginUserwithGoogle,
-        setnewUser,
+        addListing,
         isLoggedIn,
       }}
     >
